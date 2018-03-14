@@ -1,0 +1,46 @@
+version: '2'
+
+services:
+   wordpress_db:
+     image: mysql:5.7
+     volumes:
+       - dbdata:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+   phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     links:
+        - wordpress_db:mysql
+     ports:
+        - "8181:80"
+     environment:
+       PMA_USER: wordpress
+       PMA_PASSWORD: wordpress
+
+   wordpress:
+     depends_on:
+       - wordpress_db
+     image: wordpress:latest
+     ports:
+      - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: wordpress_db:3306
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: wordpress
+       VIRTUAL_HOST: "${DOCKER_DEV_DOMAIN}"
+       WORDPRESS_ACTIVATE_PLUGINS: "victron-vrm-viewer"
+       WORDPRESS_ACTIVATE_THEME: ""   # theme folder relative to /wp-content/themes/
+       WORDPRESS_SITE_TITLE: "Project"
+       WORDPRESS_SITE_URL: "http://${DOCKER_DEV_DOMAIN}"
+       XDEBUG_CONFIG: "remote_host=${DOCKER_LOCAL_IP} idekey=xdebug"
+     volumes:
+      - ./:/var/www/html/wp-content/plugins
+
+volumes:
+  dbdata:

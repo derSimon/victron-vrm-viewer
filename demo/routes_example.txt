@@ -1,0 +1,4 @@
+https://vrmapi.victronenergy.com/v2/installations/1039/stats?end=1520442000&interval=hours&start=1520355600&type=live_feed
+
+
+https://vrmapi.victronenergy.com/v2/auth/loginAsDemo
