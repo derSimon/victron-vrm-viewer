@@ -16,8 +16,8 @@ function add_new_menu_items()
 {
 
     add_menu_page(
-        "VRM Options",
-        "VRM Options",
+        "VRM Viewer",
+        "VRM Viewer",
         "manage_options",
         "vrm-options",
         "vrm_options_page",
@@ -42,6 +42,8 @@ function vrm_options_page()
             //add_settings_section callback is displayed here. For every new section we need to call settings_fields.
             settings_fields("header_section");
             do_settings_sections("vrm-options");
+
+
             echo vrm_viewer_is_auth_valid();
             submit_button();
 

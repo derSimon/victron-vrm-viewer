@@ -36,9 +36,12 @@ function get_installations(){
 function vrm_viewer_is_auth_valid(){
     $response = vrm_authenticate();
 
-    if(property_exists($response, 'token')  && property_exists($response, 'idUser')){
+    if(property_exists($response, 'token') && property_exists($response, 'idUser')){
         return '<div style="color:green">Authentication Successful</div>';
-    }else{
+    }else if(get_option('vrm_password') == '' || get_option('vrm_password') == '' ){
+        return '<div>Missing username and password</div>';
+    }
+    else{
         return '<div style="color:red">Authentication Failed</div>';
     };
 }

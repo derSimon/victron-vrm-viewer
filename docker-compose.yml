@@ -40,7 +40,7 @@ services:
        WORDPRESS_SITE_URL: "http://${DOCKER_DEV_DOMAIN}"
        XDEBUG_CONFIG: "remote_host=${DOCKER_LOCAL_IP} idekey=xdebug"
      volumes:
-      - ./:/var/www/html/wp-content/plugins
+      - ./:/var/www/html/wp-content/plugins:smn:smn
 
 volumes:
   dbdata:
