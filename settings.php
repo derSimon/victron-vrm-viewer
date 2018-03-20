@@ -47,13 +47,13 @@ function vrm_options_page()
             <?php
                 if($active_tab == 'vrm-login-options'){
                     echo 'nav-tab-active';
-                } ?> "><?php _e('Authentication', 'sandbox'); ?></a>
+                } ?> "><?php _e('Authentication'); ?></a>
 
             <a href="?page=vrm-options&tab=vrm-installation-options" class="nav-tab
             <?php
                 if($active_tab == 'vrm-installation-options'){
                     echo 'nav-tab-active';
-                } ?>"><?php _e('Installations', 'sandbox'); ?></a>
+                } ?>"><?php _e('Installations'); ?></a>
         </h2>
 
         <?php
@@ -69,29 +69,18 @@ function vrm_options_page()
 }
 
 
-
-
 function add_section_settings()
 {
-
-    //here we display the sections and options in the settings page based on the active tab
-    if(isset($_GET["tab"]))
+    if($_GET["tab"] == "vrm-installation-options")
     {
-        if($_GET["tab"] == "vrm-login-options")
-        {
-            add_vrm_login_settings();
-        }
-        else
-        {
-            add_vrm_installations_settings();
-        }
+        add_vrm_installations_settings();
     }
     else
     {
-        echo 'tab is unknown';
+        add_vrm_login_settings();
     }
-
 }
+
 
 function add_vrm_login_settings(){
     //add_settings_section( $id, $title, $callback, $page )
@@ -104,13 +93,18 @@ function add_vrm_login_settings(){
     //register_setting( string $option_group, string $option_name, array $args
     register_setting("header_section", "vrm_username");
     register_setting("header_section", "vrm_password");
-
-
 }
+
 
 function add_vrm_installations_settings(){
+    $installation_records = vrm_get_installations();
+    $installation_ids = array();
+    foreach($installation_records as $r)
+        array_push($installation_ids, $r->idSite);
 
+    add_option('vrm_installation_ids', json_encode($installation_ids));
 }
+
 
 function display_vrm_login_settings(){
     ?>
@@ -119,10 +113,9 @@ function display_vrm_login_settings(){
 
             //add_settings_section callback is displayed here. For every new section we need to call settings_fields.
             settings_fields("header_section");
-
             do_settings_sections("vrm-options");
-            echo vrm_viewer_is_auth_valid();
 
+            echo vrm_viewer_is_auth_valid();
             submit_button();
 
             ?>
@@ -131,39 +124,30 @@ function display_vrm_login_settings(){
 }
 
 function display_vrm_installations_settings(){
+    $installations = vrm_get_installations();
     ?>
     <table class="wp-list-table widefat fixed posts">
         <thead>
         <tr>
-            <th><?php _e('Column Name 1', 'pippinw'); ?></th>
-            <th><?php _e('Column Name 2', 'pippinw'); ?></th>
-            <th><?php _e('Column Name 3', 'pippinw'); ?></th>
-            <th><?php _e('Column Name 4', 'pippinw'); ?></th>
+            <th><?php _e('Installation ID'); ?></th>
+            <th><?php _e('Name'); ?></th>
+            <th><?php _e('Timezone'); ?></th>
         </tr>
         </thead>
         <tbody>
+
+    <?php foreach($installations as $element) { ?>
         <tr>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
+            <td><?php _e($element->idSite); ?></td>
+            <td><?php _e($element->name); ?></td>
+            <td><?php _e($element->timezone); ?></td>
         </tr>
-        <tr>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-        </tr>
-        <tr>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-            <td><?php _e('Column Data', 'pippinw'); ?></td>
-        </tr>
+    <?php }; ?>
         </tbody>
     </table>
     <?php
 }
+
 
 function display_header_options_content(){
     echo "Authentication for Victron VRM Portal";
@@ -191,7 +175,7 @@ function display_pw_form_element()
 function active_tab(){
     //we check if the page is visited by click on the tabs or on the menu button.
     //then we get the active tab.
-    $active_tab = "vrm-login-options";
+
     if(isset($_GET["tab"]))
     {
         if($_GET["tab"] == "vrm-login-options")
@@ -202,6 +186,8 @@ function active_tab(){
         {
             $active_tab = "vrm-installation-options";
         }
+    }else{
+        $active_tab = "vrm-login-options";
     }
     return $active_tab;
 }
