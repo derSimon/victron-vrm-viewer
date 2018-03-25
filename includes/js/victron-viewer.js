@@ -19,12 +19,11 @@
                 id: installation_id
             },
             success: function (data) {
-                //console.log(data);
-                //$('#vrm-viewer').html(JSON.stringify(data));
-                //var myChart = Highcharts.chart('vrm-viewer', configs['liveFeed']);
 
                 var configWithData = addChartData(data, configs['liveFeed']);
                 var myChart = Highcharts.chart('vrm-viewer', configWithData);
+
+                console.log(JSON.stringify(configWithData, null, 2));
             },
             error: function () {
                 console.log("Error");
@@ -36,12 +35,9 @@
 
         config.series.forEach(
             function(series){
-                //var seriesId = series.id;
-                //console.log(data.records[series.name]);
                 series.data = data.records[series.name];
             });
-        console.log(config);
-        //console.log(chart);
+
         return config;
     }
 
@@ -90,7 +86,7 @@
                 offset: 5
             },
             gridLineWidth: 0,
-            visible: !1,
+            visible: 1,
             showFirstLabel: !0
         }, {
             min: 0,
@@ -114,7 +110,7 @@
             },
             gridLineWidth: 0,
             opposite: !0,
-            visible: !1,
+            visible: 1,
             showFirstLabel: !0
         }, {
             title: {
@@ -204,7 +200,7 @@
                 }
             },
             zIndex: 1,
-            visible: !1,
+            visible: 1,
             data: []
         }, {
             yAxis: 0,
@@ -221,7 +217,7 @@
                 }
             },
             zIndex: 1,
-            visible: !1,
+            visible: 1,
             data: []
         }, {
             yAxis: 1,
@@ -267,7 +263,7 @@
                     halo: null
                 }
             },
-            visible: !1,
+            visible: 1,
             data: []
         }, {
             yAxis: 2,
@@ -289,7 +285,7 @@
                     halo: null
                 }
             },
-            visible: !1,
+            visible: 1,
             data: []
         }, {
             yAxis: 4,
@@ -311,7 +307,7 @@
                     halo: null
                 }
             },
-            visible: !1,
+            visible: 1,
             data: []
         }, {
             yAxis: 3,
