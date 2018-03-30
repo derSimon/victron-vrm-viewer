@@ -1,14 +1,23 @@
 var locale = {
 
     graph : {
+
         kwh: "kWh",
-        consumption: "total_consumption",
-        solar: "total_solar_yield",
-        battery_avg: "bv",
-        battery_range: "bs",
+        total_consumption: "Total Consumption",
+        total_solar_yield: "Solar",
+        bv: "Battery Average",
+        bs: "Battery Range",
         Pdc: "Pdc",
         iOI1: "iOI1",
-        bv: "bv"
+        bv2: "bv",
+
+        from_grid: "from_grid",
+        from_genset: "from_genset",
+        from_battery: "from_battery",
+        from_solar: "from_solar",
+        to_grid: "to_grid",
+        to_battery: "to_battery",
+        direct_use: "direct_use"
     },
 
     getString: function(stringExpression){

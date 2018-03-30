@@ -15,8 +15,14 @@ function vrm_ajax(){
 
    // $parameter = htmlspecialchars($_POST["name"]) ;
 
+    //todo: validations
     $id = $_REQUEST['id'];
-    $data = get_vrm_installation_data($id);
+    $start = $_REQUEST['start'];
+    $end = $_REQUEST['end'];
+    $type = $_REQUEST['type'];
+    $interval = $_REQUEST['interval'];
+
+    $data = get_vrm_installation_data($id, $start, $end ,$interval , $type);
 
     wp_send_json($data);
 

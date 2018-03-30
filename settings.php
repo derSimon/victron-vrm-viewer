@@ -25,7 +25,6 @@ function add_new_menu_items()
         "",
         100
     );
-
 }
 
 
@@ -98,11 +97,16 @@ function add_vrm_login_settings(){
 
 function add_vrm_installations_settings(){
     $installation_records = vrm_get_installations();
+
     $installation_ids = array();
     foreach($installation_records as $r)
         array_push($installation_ids, $r->idSite);
 
-    add_option('vrm_installation_ids', json_encode($installation_ids));
+    if(!get_option('vrm_installation_ids')) {
+        add_option('vrm_installation_ids', json_encode($installation_ids));
+    }else{
+        update_option('vrm_installation_ids', json_encode($installation_ids));
+    }
 }
 
 

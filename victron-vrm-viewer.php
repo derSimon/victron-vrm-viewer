@@ -30,6 +30,9 @@ function vrm_adding_scripts() {
 
     wp_enqueue_script('jquery');
 
+    wp_register_script('VictronViewerValues', plugins_url('includes/js/locale.js', __FILE__), array('jquery'));
+    wp_enqueue_script('VictronViewerValues');
+
     wp_register_script('VictronViewer', plugins_url('includes/js/victron-viewer.js', __FILE__), array('jquery'));
     wp_enqueue_script('VictronViewer');
     //wp_localize_script('VictronViewer', 'victron_viewer', array('ajaxurl'=> admin_url('admin-ajax.php')));
